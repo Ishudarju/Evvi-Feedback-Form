@@ -3,14 +3,62 @@ const db = require('../confiq_DB/db_connection');
 const userModel = {
   // Create: Add a new user
   create: async (userData) => {
-    const { fullname, age, currentStatus, city, country, goalChallenges, goalFamiliarity, goalReview, goalTraining, otherDetails, studentDetails, professionalDetails,effectiveness} = userData;
+    const {
+      fullname,
+      age,
+      current_status, // This should match the input structure
+      college,
+      year_study, // This is directly from the input
+      major,
+      job_title, // Directly from professionalDetails
+      company,
+      industry,
+      other_details, // This can come from userData directly
+      city,
+      country,
+      familiarity,
+      goal_setting,
+      review,
+      effectiveness,
+      challenges,
+      training_expectations,
+      created_at
+    } = userData;
 
-    const { college, yearstudy, major } = studentDetails || {}; // Extract student details
-    const { jobtitle, company, industry } = professionalDetails || {}; // Extract professional details
-  
-    const sql = `INSERT INTO ptsf_form1 (fullname, age, current_status, college, year_study, major, job_title, company, industry, other_details, city, country, familiarity, goal_setting, review, effectiveness, challenges, training_expectations)
-                 VALUES ('${fullname}', '${age}', '${currentStatus}', '${college}', '${yearstudy}', '${major}', '${jobtitle}', '${company}', '${industry}', '${otherDetails}', '${city}', '${country}', '${goalFamiliarity}', '${goalChallenges}', '${goalReview}', '${goalTraining}','${effectiveness}', '${goalTraining}')`;
-  
+    console.log(userData); // Log user data for debugging
+   
+
+    // Ensure age is a number
+    const ageValue = (isNaN(age) || age === "") ? null : age; // Handle age if it's not a valid number
+
+    // If created_at is not passed, you can use current timestamp
+    const createdAtValue = created_at || new Date().toISOString(); // Default to current timestamp if not provided
+
+    // SQL query for inserting data
+    const sql = `INSERT INTO ptsf_form2 
+      (fullname, age, current_status, college, year_study, major, job_title, company, industry, other_details, city, country, familiarity, goal_setting, review, effectiveness, challenges, training_expectations,created_at)
+      VALUES (
+        '${fullname}', 
+        ${age}, 
+        '${current_status}', 
+        '${college}', 
+        '${year_study}', 
+        '${major}', 
+        '${job_title}', 
+        '${company}', 
+        '${industry}', 
+        '${other_details}', 
+        '${city}', 
+        '${country}', 
+        '${familiarity}', 
+        '${goal_setting}', 
+        '${review}', 
+        '${effectiveness}', 
+        '${challenges}', 
+        '${training_expectations}',
+        '${created_at}'
+      )`;
+
     try {
       const result = await db.promise().query(sql);
       return result[0];  // The result is in the first element of the array
@@ -18,6 +66,10 @@ const userModel = {
       throw new Error('Database insertion failed: ' + error.message);
     }
   },
+
+
+  
+
 
   // Read: Get all users
   getAll: async () => {

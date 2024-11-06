@@ -1,6 +1,6 @@
 
 const userModel = require('../Model/users_form1_model.js');  
-const sendEmail = require("../Mailsender/nodemailform1");
+const sendEmail = require("../Mailsender/nodemail_form1.js");
 
 // Create: Add a new user
 exports.createUser = async (req, res) => {

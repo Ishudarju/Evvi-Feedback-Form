@@ -1,21 +1,61 @@
 
 const userModel = require('../Model/users_form2_model');
-const sendEmail = require("../Mailsender/nodemail");
+const sendEmail = require("../Mailsender/nodemail_form2");
 
 const userController = {
-  // Create a user
+
   createUser: async (req, res) => {
     console.log(req.body);
     try {
-      const newUser = await userModel.create(req.body);
-
-      await sendEmail(req.body); 
-
+      // Destructure the properties from the request body
+      const { 
+        fullname, age, currentStatus, city, country, 
+        studentDetails, professionalDetails, 
+        goalFamiliarity, effectiveness, goalSetting, 
+        goalReview = [], goalChallenges, goalTraining 
+      } = req.body;
+  
+      // Destructure nested objects (studentDetails and professionalDetails)
+      const { college = '', yearstudy = '', major = '' } = studentDetails || {};
+      const { jobtitle = '', company = '', industry = '' } = professionalDetails || {};
+  
+      // Prepare the new user data for insertion
+      const newUserData = {
+        fullname,
+        age,
+        current_status: currentStatus,
+        college,
+        year_study: yearstudy,
+        major,
+        job_title: jobtitle,
+        company,
+        industry,
+        other_details: '',  // Default to empty string if no other details provided
+        city,
+        country,
+        familiarity: goalFamiliarity, // Mapping from the request
+        goal_setting: goalSetting, 
+        review: goalReview.join(", "), // Join array into a string
+        effectiveness,
+        challenges: goalChallenges,
+        training_expectations: goalTraining,
+        created_at: new Date().toISOString() // Set created_at to current date-time
+      };
+  
+      // Call the model to create the user in the database
+      const newUser = await userModel.create(newUserData);
+  
+      // Send email after user creation
+      await sendEmail(newUserData); 
+  
+      // Respond with success message
       res.status(201).json({ message: 'User created successfully', userId: newUser.insertId });
     } catch (error) {
       res.status(500).json({ error: 'Failed to create user: ' + error.message });
     }
   },
+
+
 
   // Get all users
   getAllUsers: async (req, res) => {
