@@ -125,7 +125,7 @@ const sendEmail = async (userData) => {
                         <td style="padding: 10px; border-bottom: 1px solid #555;">${training_expectations}</td>
                     </tr>
                     <tr style="background-color: #2b2b2b;">
-                        <td style="padding: 10px; border-bottom: 1px solid #555;"><strong>Training Expectations</strong></td>
+                        <td style="padding: 10px; border-bottom: 1px solid #555;"><strong>Form Submit Time</strong></td>
                         <td style="padding: 10px; border-bottom: 1px solid #555;">${created_at}</td>
                     </tr>
                 </tbody>

@@ -6,9 +6,46 @@ const sendEmail = require("../Mailsender/nodemail_form1.js");
 exports.createUser = async (req, res) => {
   try {
     console.log(req.body);
-    const userData = req.body;
-    const result = await userModel.create(userData);
-    await sendEmail(req.body); 
+
+    const { 
+      full_name, fun_metor, options, other_status, state, country, district, 
+      fun_metter_value, meter_value, learning_impact, star_rating, emoji_rating, 
+      quality, concerns, testimonial, phone, email_address 
+    } = req.body; // Use req.body instead of userData
+
+    // Check for missing or empty fields
+    const validationErrors = [];
+
+    if (!full_name || full_name.trim() === "") validationErrors.push("Full Name is required.");
+    if (!fun_metor || fun_metor.trim() === "") validationErrors.push("Fun Metor is required.");
+    if (!options || options.trim() === "") validationErrors.push("Options are required.");
+    // if (!other_status || other_status.trim() === "") validationErrors.push("Other Status is required.");
+    if (!state || state.trim() === "") validationErrors.push("State is required.");
+    if (!country || country.trim() === "") validationErrors.push("Country is required.");
+    if (!district || district.trim() === "") validationErrors.push("District is required.");
+    if (!fun_metter_value || fun_metter_value.trim() === "") validationErrors.push("Fun Metter Value is required.");
+    if (!meter_value || meter_value.trim() === "") validationErrors.push("Meter Value is required.");
+    if (!learning_impact || learning_impact.trim() === "") validationErrors.push("Learning Impact is required.");
+    if (!star_rating || star_rating.trim() === "") validationErrors.push("Star Rating is required.");
+    if (!emoji_rating || emoji_rating.trim() === "") validationErrors.push("Emoji Rating is required.");
+    if (!quality || quality.trim() === "") validationErrors.push("Quality is required.");
+    if (!concerns || concerns.trim() === "") validationErrors.push("Concerns are required.");
+    if (!testimonial || testimonial.trim() === "") validationErrors.push("Testimonial is required.");
+    if (!phone || phone.trim() === "") validationErrors.push("Phone is required.");
+    if (!email_address || email_address.trim() === "") validationErrors.push("Email Address is required.");
+
+    // If there are validation errors, return them to the frontend
+    if (validationErrors.length > 0) {
+      return res.status(400).json({
+        message: "Validation failed",
+        errors: validationErrors
+      });
+    }
+
+    // Create user in the database
+    const result = await userModel.create(req.body); // Use req.body here
+    await sendEmail(req.body); // Send email with the form data
+
     res.status(201).json({
       message: 'User created successfully',
       data: result
@@ -20,6 +57,7 @@ exports.createUser = async (req, res) => {
     });
   }
 };
+
 
 // Read: Get all users
 exports.getAllUsers = async (req, res) => {

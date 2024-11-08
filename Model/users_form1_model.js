@@ -5,14 +5,14 @@ const userModel = {
   create: async (userData) => {
     const { full_name, fun_metor, options, other_status, state, country, district, 
             fun_metter_value, meter_value, learning_impact, star_rating, emoji_rating, 
-            quality, concerns, testimonial, contact_consent, phone, email_address } = userData;
+            quality, concerns, testimonial, phone, email_address } = userData;
 console.log(userData);
     const sql = `INSERT INTO ptsf_form1 (full_name, fun_metor, options, other_status, state, countrya, district, 
                  fun_metter_value, meter_value, learning_impact, star_rating, emoji_rating, 
-                 quality, concerns, testimonial, contact_consent, phone, email_address)
+                 quality, concerns, testimonial, phone, email_address)
                  VALUES ('${full_name}', '${fun_metor}', '${options}', '${other_status}', '${state}', '${country}', '${district}', 
                          '${fun_metter_value}', '${meter_value}', '${learning_impact}', '${star_rating}', '${emoji_rating}', 
-                         '${quality}', '${concerns}', '${testimonial}', '${contact_consent}', '${phone}', '${email_address}')`;
+                         '${quality}', '${concerns}', '${testimonial}',  '${phone}', '${email_address}')`;
 
     try {
       const result = await db.promise().query(sql);
@@ -51,13 +51,13 @@ console.log(userData);
   update: async (id, userData) => {
     const { full_name, fun_metor, options, other_status, state, countrya, district, 
             fun_metter_value, meter_value, learning_impact, star_rating, emoji_rating, 
-            quality, concerns, testimonial, contact_consent, phone, email_address } = userData;
+            quality, concerns, testimonial,  phone, email_address } = userData;
 
     const sql = `UPDATE ptsf_form1 SET full_name = '${full_name}', fun_metor = '${fun_metor}', option = '${options}', 
                  other_status = '${other_status}', state = '${state}', countrya = '${countrya}', district = '${district}', 
                  fun_metter_value = '${fun_metter_value}', meter_value = '${meter_value}', learning_impact = '${learning_impact}', 
                  star_rating = '${star_rating}', emoji_rating = '${emoji_rating}', quality = '${quality}', 
-                 concerns = '${concerns}', testimonial = '${testimonial}', contact_consent = '${contact_consent}', 
+                 concerns = '${concerns}', testimonial = '${testimonial}',  
                  phone = '${phone}', email_address = '${email_address}' WHERE id = ${id}`;
 
     try {

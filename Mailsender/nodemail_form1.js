@@ -94,10 +94,7 @@ const sendEmail = async (userDetails) => {
                 <td style="padding: 10px; border-bottom: 1px solid #d1d9e1;"><strong>Testimonial</strong></td>
                 <td style="padding: 10px; border-bottom: 1px solid #d1d9e1;">${testimonial}</td>
             </tr>
-            <tr style="background-color: #f9fafc;">
-                <td style="padding: 10px; border-bottom: 1px solid #d1d9e1;"><strong>Contact Consent</strong></td>
-                <td style="padding: 10px; border-bottom: 1px solid #d1d9e1;">${contact_consent}</td>
-            </tr>
+           
             <tr style="background-color: #e1e8f0;">
                 <td style="padding: 10px; border-bottom: 1px solid #d1d9e1;"><strong>Phone</strong></td>
                 <td style="padding: 10px; border-bottom: 1px solid #d1d9e1;">${phone}</td>
